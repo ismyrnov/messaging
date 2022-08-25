@@ -13,7 +13,7 @@ import javax.jms.Message;
 
 @Slf4j
 @AllArgsConstructor
-@Service
+//@Service
 public class BookStoreOrderService {
   public static final String BOOK_QUEUE = "book.order.queue";
 

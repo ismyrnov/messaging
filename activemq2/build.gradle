@@ -1,10 +1,12 @@
 plugins {
     id "org.springframework.boot" version "2.5.12"
+    id 'java-library'
 }
 
 apply plugin: 'io.spring.dependency-management'
 
 dependencies {
+    api project(":activemq")
     implementation "org.springframework.boot:spring-boot-starter:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-activemq:${springBootVersion}"
