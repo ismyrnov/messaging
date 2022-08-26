@@ -1,11 +1,11 @@
 package com.ismyrnov.messaging.controller;
 
 import com.ismyrnov.messaging.model.BookOrder;
-import com.ismyrnov.messaging.secvice.jms.pubsub.PubSubSender;
+import com.ismyrnov.messaging.secvice.pubsub.PubSubSender;
+import com.ismyrnov.messaging.secvice.request.reply.RequestReplySender;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,11 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class BookController {
 
-  private final PubSubSender orderService;
+  private final PubSubSender pubSubSender;
 
-  @PostMapping("/messaging/activemq")
+  private final RequestReplySender requestReplySender;
+
+  @PostMapping("/messaging/activemq/pubsub")
   public void send(@RequestBody BookOrder order) {
-    orderService.send(order);
+    pubSubSender.send(order);
+  }
+
+  @PostMapping("/messaging/activemq/requestreply")
+  public void sendRequestReply(@RequestBody BookOrder order) {
+    requestReplySender.send(order);
   }
 
   @ExceptionHandler(value = { RuntimeException.class})

@@ -1,4 +1,4 @@
-package com.ismyrnov.messaging.secvice.jms.pubsub;
+package com.ismyrnov.messaging.secvice.pubsub;
 
 import com.ismyrnov.messaging.model.BookOrder;
 import lombok.AllArgsConstructor;
@@ -7,7 +7,7 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
-import static com.ismyrnov.messaging.secvice.jms.pubsub.PubSubProperties.BOOK_TOPIC;
+import static com.ismyrnov.messaging.secvice.MessagingProperties.BOOK_TOPIC;
 
 @Slf4j
 @Service

@@ -1,6 +1,5 @@
 package com.ismyrnov.messaging.config;
 
-import com.ismyrnov.messaging.secvice.jms.pubsub.PubSubSender;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -10,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.connection.SingleConnectionFactory;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
@@ -46,7 +44,7 @@ public class JmsConfig {
     ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory(jmsProperties.getUser(), jmsProperties.getPassword(), jmsProperties.getBrokerUrl());
     SingleConnectionFactory connectionFactory = new SingleConnectionFactory(factory);
     connectionFactory.setReconnectOnException(true); // CachingConnectionFactory by default set true
-    connectionFactory.setClientId("3-durable-subscription-client-id");
+    connectionFactory.setClientId("3-subscription-client-id");
 //    connectionFactory.setSessionCacheSize(100);
     return connectionFactory;
   }
@@ -75,7 +73,7 @@ public class JmsConfig {
     DefaultJmsListenerContainerFactory defaultJmsContainerFactory = new DefaultJmsListenerContainerFactory();
     defaultJmsContainerFactory.setConnectionFactory(connectionFactory);
     defaultJmsContainerFactory.setSubscriptionDurable(true);
-//    defaultJmsContainerFactory.setPubSubDomain(true);
+    defaultJmsContainerFactory.setPubSubDomain(true);
     defaultJmsContainerFactory.setConcurrency("1-1");
     defaultJmsContainerFactory.setMessageConverter(jacksonJmsConvertor());
 //    defaultJmsContainerFactory.setTransactionManager(jmsTransactionManager);

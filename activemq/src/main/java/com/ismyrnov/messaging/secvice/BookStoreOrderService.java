@@ -1,4 +1,4 @@
-package com.ismyrnov.messaging.secvice.jms;
+package com.ismyrnov.messaging.secvice;
 
 import com.ismyrnov.messaging.model.BookOrder;
 import lombok.AllArgsConstructor;
