@@ -10,6 +10,7 @@ allprojects {
 }
 
 subprojects {
+    apply plugin: 'io.spring.dependency-management'
     apply plugin: 'java'
 
     group = rootProject.group
@@ -21,6 +22,9 @@ subprojects {
     }
 
     dependencies {
+        implementation "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+        implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+
         implementation "com.fasterxml.jackson.core:jackson-databind"
         implementation "javax.servlet:jstl:1.2"
 

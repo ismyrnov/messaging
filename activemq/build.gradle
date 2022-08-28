@@ -2,11 +2,7 @@ plugins {
     id "org.springframework.boot" version "2.5.12"
 }
 
-apply plugin: 'io.spring.dependency-management'
-
 dependencies {
-    implementation "org.springframework.boot:spring-boot-starter:${springBootVersion}"
-    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-activemq:${springBootVersion}"
     implementation "org.apache.activemq:activemq-broker"
 }

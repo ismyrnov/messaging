@@ -8,8 +8,6 @@ spring:
       auto-startup: true
       concurrency: 5
       max-concurrency: 10
-    # uncomment for pubsub flow
-    #pub-sub-domain: true
     template:
       default-destination:
       delivery-mode: non_persistent

@@ -9,5 +9,3 @@ pluginManagement {
 rootProject.name = 'messaging'
 
 include 'activemq'
-include 'activemq2'
-
