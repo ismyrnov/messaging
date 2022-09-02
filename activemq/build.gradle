@@ -1,7 +1,3 @@
-plugins {
-    id "org.springframework.boot" version "2.5.12"
-}
-
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-activemq:${springBootVersion}"
     implementation "org.apache.activemq:activemq-broker"

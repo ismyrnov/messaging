@@ -1,0 +1,80 @@
+server.port: 8183
+
+spring:
+#  rabbitmq:
+#    virtual-host: 3-stream
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+  cloud:
+    stream:
+#      bindings:
+#        input-queue1:
+#          destination: topic-exchange
+#          group: queue-1
+#        input-queue2:
+#          destination: topic-exchange
+#          group: queue-2
+#        output:
+#          destination: topic-exchange
+#      rabbit:
+#        bindings:
+#          input-queue1:
+#            consumer:
+#              queueNameGroupOnly: true
+#              bindingRoutingKey: routing-key-1
+#          input-queue2:
+#            consumer:
+#              queueNameGroupOnly: true
+#              bindingRoutingKey: routing-key-2
+#          output:
+#            exchangeType: topic
+#            producer:
+#              routingKeyExpression: headers['myRoutingKeyHeaderName']
+      function:
+        definition: queue1Sink;queue2Sink;failedSink
+      bindings:
+        queue1Sink-in-0:
+          destination: topic-exchange
+          group: queue-1
+#          consumer:
+#            max-attempts: 3
+        queue2Sink-in-0:
+          destination: topic-exchange
+          group: queue-2
+        failedSink-in-0:
+          destination: failed-exchange
+          group: failed-queue
+        source-out-0:
+          destination: topic-exchange
+        failed-out-0:
+          destination: failed-exchange
+      rabbit:
+        bindings:
+          queue1Sink-in-0:
+            consumer:
+              queueNameGroupOnly: true
+              bindingRoutingKey: routing-key-1
+          queue2Sink-in-0:
+            consumer:
+              queueNameGroupOnly: true
+              bindingRoutingKey: routing-key-2
+          failedSink-in-0:
+            consumer:
+              exchangeType: topic
+              queueNameGroupOnly: true
+              requeueRejected: true
+          source-out-0:
+            producer:
+              exchangeType: topic
+              routingKeyExpression: headers['myRoutingKeyHeaderName']
+          failed-out-0:
+            producer:
+              exchangeType: topic

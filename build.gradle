@@ -1,7 +1,13 @@
+plugins {
+    id "org.springframework.boot" version "2.5.12"
+}
+
 group 'com.ismyrnov.messaging'
 version '0.0.1-SNAPSHOT'
+
 allprojects {
     repositories {
+        mavenLocal()
         mavenCentral()
         maven {
             url "https://plugins.gradle.org/m2/"

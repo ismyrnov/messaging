@@ -9,3 +9,4 @@ pluginManagement {
 rootProject.name = 'messaging'
 
 include 'activemq'
+include 'rabbitmq'
