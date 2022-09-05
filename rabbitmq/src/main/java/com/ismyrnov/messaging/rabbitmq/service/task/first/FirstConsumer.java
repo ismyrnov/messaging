@@ -1,6 +1,5 @@
 package com.ismyrnov.messaging.rabbitmq.service.task.first;
 
-import com.ismyrnov.messaging.rabbitmq.service.task.Consumer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
@@ -10,14 +9,13 @@ import org.springframework.messaging.support.MessageBuilder;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.ismyrnov.messaging.rabbitmq.service.MessageProperties.CONSUMER_1;
-import static com.ismyrnov.messaging.rabbitmq.service.MessageProperties.CONSUMER_2;
 import static com.ismyrnov.messaging.rabbitmq.service.MessageProperties.FAILED_EXCHANGE;
 import static com.ismyrnov.messaging.rabbitmq.service.task.first.MessageType.RETRY_MESSAGE;
 import static com.ismyrnov.messaging.rabbitmq.service.task.first.MessageType.UNPROCESSABLE_MESSAGE;
 
 @Slf4j
 @AllArgsConstructor
-public class FirstConsumer implements Consumer {
+public class FirstConsumer implements java.util.function.Consumer<Message<String>> {
 
   /*private static final String DURABLE = "true";*/
 
@@ -33,12 +31,12 @@ public class FirstConsumer implements Consumer {
 /*  @StreamListener(QUEUE_1)
   public void listenQueue1(Message<String> message) {doListen(CONSUMER_1, message);}*/
 
-  public void processQueue1(Message<String> message) {
+  @Override
+  public void accept(Message<String> message) {
     log.info("Consumer '{}' got a message: {} ...", CONSUMER_1, message.getPayload());
     if (((AtomicInteger) message.getHeaders().get("deliveryAttempt")).get() > 2) {
       log.error("Consumer '{}' Max Delivery Attempt reached message: {}", CONSUMER_1, message.getPayload());
       publishFailed(message.getPayload());
-//      throw new ImmediateAcknowledgeAmqpException("Failed after 3 attempts");
     } else if (UNPROCESSABLE_MESSAGE.toString().equals(message.getPayload())) {
       log.error("Consumer '{}' Unprocessable message: {}", CONSUMER_1, message.getPayload());
       publishFailed(message.getPayload());
@@ -48,11 +46,6 @@ public class FirstConsumer implements Consumer {
     }
 
     log.info("Consumer '{}' got message: '{}", CONSUMER_1, message.getPayload());
-  }
-
-  public void processQueue2(Message<String> message) {
-    log.info("Consumer '{}' got a message...", CONSUMER_2);
-    log.info("Consumer '{}' processed message: '{}", CONSUMER_2, message.getPayload());
   }
 
   private void publishFailed(String payload) {

@@ -1,4 +1,4 @@
-republish: true
+republish: false
 spring:
   cloud:
     stream:

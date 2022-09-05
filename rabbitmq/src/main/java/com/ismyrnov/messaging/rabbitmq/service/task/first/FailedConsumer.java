@@ -8,18 +8,19 @@ import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 
+import java.util.function.Consumer;
+
 @Slf4j
 @Service
 @AllArgsConstructor
-public class FailedConsumer {
+public class FailedConsumer implements Consumer<Message<String>> {
 
   private final MessageRepository repository;
 
   private static final String FAILED_CONSUMER = "failed-consumer-1";
 
-  private final StreamBridge streamBridge;
-
-  public void processFailedQueue(Message<String> message) {
+  @Override
+  public void accept(Message<String> message) {
     log.info("Consumer '{}' got a message...", FAILED_CONSUMER);
     repository.save(map(message.getPayload()));
     log.info("Consumer '{}' processed message: '{}", FAILED_CONSUMER, message.getPayload());
