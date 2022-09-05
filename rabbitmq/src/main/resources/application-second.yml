@@ -1,0 +1,30 @@
+republish: true
+spring:
+  cloud:
+    stream:
+      bindings:
+        queue1Sink-in-0:
+          destination: topic-exchange
+          group: queue-1
+          consumer:
+            # disable in-process retry, by default it's 3 attempts
+            max-attempts: 1
+      rabbit:
+        bindings:
+          queue1Sink-in-0:
+            consumer:
+              autoBindDlq: true
+              dlq-ttl: 5000
+              deadLetterExchange: retry-exchange
+              deadLetterQueueName: retry-queue
+              republishToDlq: ${republish}
+              # after retries, use a destination source routing key
+              dlqDeadLetterEexchange:
+          queue2Sink-in-0:
+            consumer:
+              autoBindDlq: true
+              dlq-ttl: 5000
+              deadLetterExchange: retry-exchange
+              deadLetterQueueName: retry-queue
+              republishToDlq: ${republish}
+              dlqDeadLetterExchange:

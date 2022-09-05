@@ -1,25 +1,24 @@
 package com.ismyrnov.messaging.rabbitmq.service.task.first;
 
+import com.ismyrnov.messaging.rabbitmq.service.task.Consumer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.stereotype.Service;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.ismyrnov.messaging.rabbitmq.service.MessageProperties.CONSUMER_1;
+import static com.ismyrnov.messaging.rabbitmq.service.MessageProperties.CONSUMER_2;
 import static com.ismyrnov.messaging.rabbitmq.service.MessageProperties.FAILED_EXCHANGE;
 import static com.ismyrnov.messaging.rabbitmq.service.task.first.MessageType.RETRY_MESSAGE;
 import static com.ismyrnov.messaging.rabbitmq.service.task.first.MessageType.UNPROCESSABLE_MESSAGE;
 
 @Slf4j
-@Service
 @AllArgsConstructor
-public class Consumer {
+public class FirstConsumer implements Consumer {
 
-  private static final String CONSUMER_1 = "consumer-1";
-  private static final String CONSUMER_2 = "consumer-2";
   /*private static final String DURABLE = "true";*/
 
   private final StreamBridge streamBridge;
