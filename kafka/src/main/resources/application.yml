@@ -1,0 +1,36 @@
+server.port: 8183
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:29092
+    enable:
+      idempotence: true
+    producer:
+      retries: 3
+      acks: all
+      properties:
+        enable:
+          idempotence: true
+        request:
+          timeout:
+            ms: 10000
+        delivery:
+          timeout:
+            ms: 15000
+        transaction:
+          timeout:
+            ms: 15000
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      enable-auto-commit: true
+      auto:
+        commit:
+          interval:
+            ms: 1
+      auto-offset-reset: earliest
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: com.ismyrnov.messaging.kafka
