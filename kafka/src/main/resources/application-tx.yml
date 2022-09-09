@@ -6,6 +6,8 @@ spring:
     producer:
       retries: 3
       acks: all
+      transactional:
+        id: tx-id-1
       properties:
         enable:
           idempotence: true
@@ -20,14 +22,12 @@ spring:
             ms: 15000
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
-      enable-auto-commit: true
-      auto:
-        commit:
-          interval:
-            ms: 1
+      enable-auto-commit: false
       auto-offset-reset: earliest
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
+        isolation:
+          level: read_committed
         spring:
           json:
             trusted:

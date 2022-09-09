@@ -1,4 +1,4 @@
-package com.ismyrnov.messaging.kafka.service;
+package com.ismyrnov.messaging.kafka.service.first;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -8,11 +8,11 @@ import static com.ismyrnov.messaging.kafka.config.KafkaConfiguration.TOPIC;
 
 @Slf4j
 @Service
-public class Consumer {
+public class FirstConsumer {
 
   @KafkaListener(id = "my-id-1", topics = TOPIC)
   public void consume(String message) {
-    log.info("Consumer's got a message: {}", message);
+    log.info("-Consumer's got a message: {}", message);
     throw new RuntimeException("Error !!!");
   }
 }
