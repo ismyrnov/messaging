@@ -13,7 +13,7 @@ import static com.ismyrnov.messaging.kafka.config.KafkaConfiguration.TOPIC;
 public class SecondConsumer {
 
   @Transactional(isolation = Isolation.READ_COMMITTED)
-  @KafkaListener(id = "my-id-1", topics = TOPIC)
+  @KafkaListener(id = "my2-id-1", topics = TOPIC)
   public void consume(String message) {
     log.info("-Consumer's got a message: {}", message);
     throw new RuntimeException("Error !!!");

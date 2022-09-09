@@ -10,7 +10,7 @@ import static com.ismyrnov.messaging.kafka.config.KafkaConfiguration.TOPIC;
 @Service
 public class FirstConsumer {
 
-  @KafkaListener(id = "my-id-1", topics = TOPIC)
+  @KafkaListener(id = "my1-id-1", topics = TOPIC)
   public void consume(String message) {
     log.info("-Consumer's got a message: {}", message);
     throw new RuntimeException("Error !!!");
