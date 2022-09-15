@@ -7,8 +7,8 @@ import org.apache.kafka.streams.kstream.KStream;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
-import static com.ismyrnov.messaging.kafka.streaming.congig.MessagingConfig.TASK3_TOPIC1;
-import static com.ismyrnov.messaging.kafka.streaming.congig.MessagingConfig.TASK3_TOPIC2;
+import static com.ismyrnov.messaging.kafka.streaming.config.MessagingConfig.TASK3_TOPIC1;
+import static com.ismyrnov.messaging.kafka.streaming.config.MessagingConfig.TASK3_TOPIC2;
 
 @Slf4j
 @Component

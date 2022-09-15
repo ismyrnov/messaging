@@ -6,7 +6,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
-import static com.ismyrnov.messaging.kafka.streaming.congig.MessagingConfig.TASK1_TOPIC2;
+import static com.ismyrnov.messaging.kafka.streaming.config.MessagingConfig.TASK1_TOPIC2;
 
 @Slf4j
 @Component

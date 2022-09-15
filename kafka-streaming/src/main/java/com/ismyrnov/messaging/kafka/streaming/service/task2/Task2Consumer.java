@@ -6,9 +6,9 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
-import static com.ismyrnov.messaging.kafka.streaming.congig.MessagingConfig.TASK2_LONG_TOPIC;
-import static com.ismyrnov.messaging.kafka.streaming.congig.MessagingConfig.TASK2_SHORT_TOPIC;
-import static com.ismyrnov.messaging.kafka.streaming.congig.MessagingConfig.TASK2_TOPIC;
+import static com.ismyrnov.messaging.kafka.streaming.config.MessagingConfig.TASK2_LONG_TOPIC;
+import static com.ismyrnov.messaging.kafka.streaming.config.MessagingConfig.TASK2_SHORT_TOPIC;
+import static com.ismyrnov.messaging.kafka.streaming.config.MessagingConfig.TASK2_TOPIC;
 
 @Slf4j
 @Component

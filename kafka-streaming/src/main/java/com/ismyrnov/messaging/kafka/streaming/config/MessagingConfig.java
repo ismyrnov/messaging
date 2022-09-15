@@ -1,5 +1,6 @@
-package com.ismyrnov.messaging.kafka.streaming.congig;
+package com.ismyrnov.messaging.kafka.streaming.config;
 
+import com.ismyrnov.messaging.kafka.streaming.model.Employee;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KeyValue;
@@ -34,6 +35,7 @@ public class MessagingConfig {
   public static final String TASK2_LONG_TOPIC = "task2LongTopic";
   public static final String TASK3_TOPIC1 = "task3Topic1";
   public static final String TASK3_TOPIC2 = "task3Topic2";
+  public static final String TASK4_TOPIC = "task4Topic";
 
   @Bean
   public KStream<String, String> messagingTask1Stream1(StreamsBuilder streamsBuilder) {
@@ -96,6 +98,13 @@ public class MessagingConfig {
   @Bean
   public KStream<Long, String> messagingTask3Stream2(StreamsBuilder streamBuilder) {
     return streamBuilder.stream(TASK3_TOPIC2, Consumed.with(Serdes.Long(), Serdes.String()));
+  }
+
+  @Bean
+  public KStream<String, Employee> messagingTask4Stream(StreamsBuilder builder, CustomSerializer customSerializer, CustomDeserializer customDeserializer) {
+    KStream<String, Employee> stream = builder.stream(TASK4_TOPIC, Consumed.with(Serdes.String(), Serdes.serdeFrom(customSerializer, customDeserializer)));
+//    stream.print(Printed.toSysOut());
+    return stream;
   }
 
   private KStream<Long, String> filteredStream(StreamsBuilder streamBuilder, String topic) {
