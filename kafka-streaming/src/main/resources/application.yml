@@ -1,0 +1,18 @@
+server.port: 8183
+
+#logging:
+#  level:
+#    root: WARN
+
+spring:
+  kafka:
+    streams:
+      application-id: test-kafka-streams
+      bootstrap-servers: localhost:9092
+      client:
+        id: test-kafka-streams-id-1
+      state-dir: "c:\\Work\\Java Advanced_Message course\\GitHub\\messaging\\tmp"
+      properties:
+        metrics:
+          recording:
+            level: DEBUG
