@@ -6,17 +6,18 @@ import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.Branched;
 import org.apache.kafka.streams.kstream.Consumed;
+import org.apache.kafka.streams.kstream.JoinWindows;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Named;
 import org.apache.kafka.streams.kstream.Produced;
+import org.apache.kafka.streams.kstream.StreamJoined;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.annotation.EnableKafkaStreams;
 
+import java.time.Duration;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,8 @@ public class MessagingConfig {
   public static final String TASK2_TOPIC = "task2Topic";
   public static final String TASK2_SHORT_TOPIC = "task2ShortTopic";
   public static final String TASK2_LONG_TOPIC = "task2LongTopic";
+  public static final String TASK3_TOPIC1 = "task3Topic1";
+  public static final String TASK3_TOPIC2 = "task3Topic2";
 
   @Bean
   public KStream<String, String> messagingTask1Stream1(StreamsBuilder streamsBuilder) {
@@ -71,5 +74,38 @@ public class MessagingConfig {
   @Bean
   public KStream<String, String> messagingTask2LongStream(StreamsBuilder streamBuilder) {
     return streamBuilder.stream(TASK2_LONG_TOPIC, Consumed.with(Serdes.String(), Serdes.String()));
+  }
+
+  @Bean
+  public KStream<Long, String> messagingTask3JoinStream(StreamsBuilder streamBuilder) {
+    KStream<Long, String> stream1 = filteredStream(streamBuilder, TASK3_TOPIC1);
+    KStream<Long, String> stream2 = filteredStream(streamBuilder, TASK3_TOPIC2);
+
+    return stream1.selectKey((key, value) -> key)
+        .join(stream2.selectKey((key, value) -> key), (value1, value2) -> value1 + "_" + value2,
+            JoinWindows.of(Duration.ofSeconds(3)),
+            StreamJoined.with(Serdes.Long(), Serdes.String(), Serdes.String()))
+        .peek((key, value) -> log.info("Joined key: {} value: {}", key, value));
+  }
+
+  @Bean
+  public KStream<Long, String> messagingTask3Stream1(StreamsBuilder streamBuilder) {
+    return streamBuilder.stream(TASK3_TOPIC1, Consumed.with(Serdes.Long(), Serdes.String()));
+  }
+
+  @Bean
+  public KStream<Long, String> messagingTask3Stream2(StreamsBuilder streamBuilder) {
+    return streamBuilder.stream(TASK3_TOPIC2, Consumed.with(Serdes.Long(), Serdes.String()));
+  }
+
+  private KStream<Long, String> filteredStream(StreamsBuilder streamBuilder, String topic) {
+    return streamBuilder.stream(topic, Consumed.with(Serdes.Long(), Serdes.String()))
+        .filter((key, value) -> value.contains(":"))
+        .map((key, value) -> createKeyValue(value));
+  }
+
+  private KeyValue<Long, String> createKeyValue(String origin) {
+    String[] splited = origin.split(":");
+    return new KeyValue<>(Long.valueOf(splited[0]), splited[1]);
   }
 }
