@@ -12,4 +12,5 @@ include 'activemq'
 include 'rabbitmq'
 include 'kafka'
 include 'kafka-streaming'
+include 'kafka-udemy'
 
